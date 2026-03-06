@@ -18,9 +18,6 @@ class ShowPost(TunnelModel):
     created_at: datetime
     updated_at: datetime
 
-class DeletePost(TunnelModel):
-    id: UUID
-
 class UpdatePost(TunnelModel):
     title: Optional[str] = None
     body: Optional[str] = None

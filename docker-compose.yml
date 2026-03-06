@@ -1,5 +1,15 @@
 version: "5.0"
 services:
+  app:
+    container_name: "app"
+    build: "."
+    env_file:
+      - "./app/.env"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
   db:
     container_name: "db"
     image: postgres:16.0-alpine
@@ -10,6 +20,20 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  
+  redis:
+    container_name: "redis"
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  redis_gui:
+    container_name: "redis_gui"
+    image: redis/redisinsight
+    ports:
+      - "5540:5540"
+    depends_on:
+      - redis
 
 volumes:
   postgres_data:

@@ -4,6 +4,7 @@ from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.post_model import PostModel
+from app.utils.custom_errors import ItemNotFoundError
 
 class PostRepository:
     def __init__(self, session: AsyncSession):
@@ -59,7 +60,11 @@ class PostRepository:
     async def delete_post(
         self,
         post_id: UUID,
-    ) -> Union[PostModel, None]:
+    ) -> None:
         post = await self.find_post_by_id(post_id)
+
+        if not post:
+            raise ItemNotFoundError(name=post_id)
+        
         await self.session.delete(post)
         await self.session.commit()
