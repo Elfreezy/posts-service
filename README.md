@@ -1,3 +1,12 @@
+# TODO
+- [ ] Добавить обработку доп исключений
+- [ ] Добавить индексы в БД
+- [ ] Написать unit-тесты
+- [ ] Написать README
+
+
+---
+
 Проектирование системы с кешированием
 
 Суть
@@ -36,4 +45,14 @@
 alembic init app/migrations
 alembic --config=app/alembic.ini revision --autogenerate -m "init2"
 alembic --config=app/alembic.ini upgrade head
+```
+
+```
+DATABASE_URL=postgresql+asyncpg://postgres:postgres@db/postgres
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=postgres
+REDIS_HOST=redis
+REDIS_PORT=6379
+CACHE_TTL=300
 ```
