@@ -1,5 +1,5 @@
 from uuid import UUID
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from typing import Annotated
 
 from app.services.post_service import PostService
@@ -9,7 +9,7 @@ from app.dependencies import get_post_service
 post_router = APIRouter()
 
 
-@post_router.post("/create/")
+@post_router.post("/create/", status_code=status.HTTP_201_CREATED)
 async def create_post(
     post: CreatePost,
     service: Annotated[PostService, Depends(get_post_service)]
