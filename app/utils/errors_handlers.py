@@ -5,24 +5,23 @@ from loguru import logger
 
 from app.utils.custom_errors import ItemNotFoundError
 
+
 def register_errors_handlers(app: FastAPI):
 
     @app.exception_handler(ItemNotFoundError)
     async def item_not_found_exception_handler(
-        request: Request, 
-        exc: ItemNotFoundError
+        request: Request, exc: ItemNotFoundError
     ) -> JSONResponse:
         return JSONResponse(
             status_code=exc.status_code,
             content={
-                "message": f"Object \"{exc.name}\" not found",
+                "message": f'Object "{exc.name}" not found',
             },
         )
-    
+
     @app.exception_handler(DatabaseError)
     async def database_exceprion_handler(
-        request: Request, 
-        exc: DatabaseError
+        request: Request, exc: DatabaseError
     ) -> JSONResponse:
         logger.error(f"Unexpected DB error: {exc}")
 

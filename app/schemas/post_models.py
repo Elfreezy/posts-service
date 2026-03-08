@@ -7,9 +7,11 @@ from pydantic import BaseModel, ConfigDict
 class TunnelModel(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
+
 class CreatePost(TunnelModel):
     title: str
     body: str
+
 
 class ShowPost(TunnelModel):
     id: UUID
@@ -18,7 +20,7 @@ class ShowPost(TunnelModel):
     created_at: datetime
     updated_at: datetime
 
+
 class UpdatePost(TunnelModel):
     title: Optional[str] = None
     body: Optional[str] = None
-

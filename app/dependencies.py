@@ -13,14 +13,18 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
     async with sessionmaker_local() as session:
         yield session
 
+
 async def get_redis_client() -> AsyncGenerator[Redis, None]:
     redis_client = Redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT)
     yield redis_client
     await redis_client.aclose()
 
 
-async def get_post_reposiroty(session: Annotated[AsyncSession, Depends(get_session)]) -> PostRepository:
+async def get_post_reposiroty(
+    session: Annotated[AsyncSession, Depends(get_session)],
+) -> PostRepository:
     return PostRepository(session)
+
 
 async def get_post_service(
     repository: Annotated[PostRepository, Depends(get_post_reposiroty)],

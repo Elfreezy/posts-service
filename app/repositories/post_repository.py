@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.post_model import PostModel
 from app.utils.custom_errors import ItemNotFoundError
 
+
 class PostRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
@@ -17,20 +18,17 @@ class PostRepository:
         self.session.add(post)
         await self.session.commit()
         return post
-    
+
     async def find_post_by_id(
         self,
         post_id: UUID,
     ) -> Union[PostModel, None]:
-        statement = (
-            select(PostModel)
-            .filter(PostModel.id == post_id)
-        )
+        statement = select(PostModel).filter(PostModel.id == post_id)
 
         db_response = await self.session.scalars(statement)
         post = db_response.one_or_none()
         return post
-    
+
     async def get_post_all(
         self,
     ) -> Union[Sequence[PostModel], None]:
@@ -38,8 +36,7 @@ class PostRepository:
         db_result = await self.session.scalars(statement)
         posts = db_result.all()
         return posts
-    
-    
+
     async def update_post(
         self,
         post_id: UUID,
@@ -65,6 +62,6 @@ class PostRepository:
 
         if not post:
             raise ItemNotFoundError(name=post_id)
-        
+
         await self.session.delete(post)
         await self.session.commit()
